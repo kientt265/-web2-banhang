@@ -10,9 +10,6 @@ const app = (0, express_1.default)();
 const port = Number(process.env.PORT) || 5000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 app.use('/', users_route_1.default);
 app.listen(port, () => {
     console.log(`Server running ${port}`);

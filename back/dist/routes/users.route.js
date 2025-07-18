@@ -36,6 +36,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // routes/user.ts
 const express_1 = require("express");
 const userController = __importStar(require("../controllers/users.controller"));
+const validate_1 = require("../middleware/validate");
+const validator = __importStar(require("../utils/validator"));
 const router = (0, express_1.Router)();
-router.get('/userRegister', userController.register);
+//Public Routes
+router.post('/userRegister', (0, validate_1.validateSchema)(validator.registerSchema), userController.register);
+router.get('/userLogin', (0, validate_1.validateSchema)(validator.loginSchema), userController.login);
+//Authen Users
+router.get('/Profile', userController.getProfile);
+router.put('/Profile', (0, validate_1.validateSchema)(validator.updateUserSchema), userController.updateProfile);
+router.delete('/Profile', userController.deleteProfile);
+//Admin
+router.get('/:id', userController.getUserById);
+router.delete('/:id', userController.deleteUser);
+router.get('/', userController.getAllUsers);
+router.get('/:email', userController.getUserByEmail);
+router.put('/:id', (0, validate_1.validateSchema)(validator.updateUserSchema), userController.updateUser);
 exports.default = router;

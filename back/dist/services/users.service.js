@@ -46,6 +46,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = register;
+exports.login = login;
+exports.getProfile = getProfile;
+exports.updateProfile = updateProfile;
+exports.deleteProfile = deleteProfile;
+exports.getUserById = getUserById;
+exports.getAllUsers = getAllUsers;
+exports.deleteUser = deleteUser;
+exports.getUserByEmail = getUserByEmail;
+exports.updateUser = updateUser;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const userModel = __importStar(require("../models/users.model"));
 function register(_a) {
@@ -61,5 +70,103 @@ function register(_a) {
             role: role || 'user'
         });
         return user;
+    });
+}
+function login(email, password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userModel.getUserByEmail(email);
+        if (!user) {
+            throw new Error('Invalid email or password');
+        }
+        const isPasswordValid = yield bcryptjs_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            throw new Error('Invalid password');
+        }
+        return user;
+    });
+}
+//Authen Users
+function getProfile(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userModel.getUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    });
+}
+function updateProfile(userId_1, _a) {
+    return __awaiter(this, arguments, void 0, function* (userId, { username, email, password, full_name, phone, address }) {
+        if (password) {
+            const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
+            password = hashedPassword;
+        }
+        yield userModel.updateUser(userId, {
+            username,
+            email,
+            password,
+            full_name,
+            phone,
+            address,
+            role: 'user'
+        });
+    });
+}
+function deleteProfile(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userModel.getUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        yield userModel.deleteUser(userId);
+    });
+}
+//Admin
+function getUserById(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userModel.getUserById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    });
+}
+function getAllUsers() {
+    return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10) {
+        const users = yield userModel.getAllUsers({ page, limit });
+        return users;
+    });
+}
+function deleteUser(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userModel.deleteUser(userId);
+        return user;
+    });
+}
+function getUserByEmail(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userModel.getUserByEmail(email);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    });
+}
+function updateUser(userId_1, _a) {
+    return __awaiter(this, arguments, void 0, function* (userId, { username, email, password, full_name, phone, address, role }) {
+        if (password) {
+            const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
+            password = hashedPassword;
+        }
+        yield userModel.updateUser(userId, {
+            username,
+            email,
+            password,
+            full_name,
+            phone,
+            address,
+            role
+        });
+        return getUserById(userId);
     });
 }

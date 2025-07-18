@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
+exports.deleteUser = exports.updateUser = exports.getAllUsers = exports.getUserById = exports.getUserByEmail = exports.createUser = void 0;
 const db_1 = __importDefault(require("../db"));
 const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username, email, password, full_name, phone, address, role }) {
     const [result] = yield db_1.default.query('INSERT INTO users (username, email, password, full_name, phone, address, role) VALUES (?, ?, ?, ?, ?, ?, ?)', [username, email, password, full_name, phone, address, role]);
@@ -21,20 +21,23 @@ const createUser = (_a) => __awaiter(void 0, [_a], void 0, function* ({ username
     return rows[0];
 });
 exports.createUser = createUser;
-exports.getUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+const getUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const [rows] = yield db_1.default.query('SELECT * FROM users WHERE email = ?', [email]);
     return rows[0];
 });
-exports.getUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getUserByEmail = getUserByEmail;
+const getUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const [rows] = yield db_1.default.query('SELECT id, username, email, full_name, phone, address, role, created_at, updated_at FROM users WHERE id = ?', [id]);
     return rows[0];
 });
-exports.getAllUsers = (_a) => __awaiter(void 0, [_a], void 0, function* ({ page, limit }) {
+exports.getUserById = getUserById;
+const getAllUsers = (_a) => __awaiter(void 0, [_a], void 0, function* ({ page, limit }) {
     const offset = (page - 1) * limit;
     const [rows] = yield db_1.default.query('SELECT id, username, email, full_name, phone, address, role, created_at, updated_at FROM users LIMIT ? OFFSET ?', [limit, offset]);
     return rows;
 });
-exports.updateUser = (id_1, _a) => __awaiter(void 0, [id_1, _a], void 0, function* (id, { username, email, password, full_name, phone, address, role }) {
+exports.getAllUsers = getAllUsers;
+const updateUser = (id_1, _a) => __awaiter(void 0, [id_1, _a], void 0, function* (id, { username, email, password, full_name, phone, address, role }) {
     const fields = [];
     const values = [];
     if (username) {
@@ -70,6 +73,8 @@ exports.updateUser = (id_1, _a) => __awaiter(void 0, [id_1, _a], void 0, functio
     values.push(id);
     yield db_1.default.query(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`, values);
 });
-exports.deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateUser = updateUser;
+const deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     yield db_1.default.query('DELETE FROM users WHERE id = ?', [id]);
 });
+exports.deleteUser = deleteUser;
