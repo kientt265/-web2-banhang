@@ -40,23 +40,23 @@ export const createUser = async ({ username, email, password, full_name, phone, 
 };
 
 
-exports.getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string) => {
   const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM users WHERE email = ?', [email]);
   return (rows as RowDataPacket[])[0];
 };
 
-exports.getUserById = async (id: number) => {
+export const getUserById = async (id: number) => {
   const [rows] = await pool.query<RowDataPacket[]>('SELECT id, username, email, full_name, phone, address, role, created_at, updated_at FROM users WHERE id = ?', [id]);
   return (rows as RowDataPacket[])[0];
 };
 
-exports.getAllUsers = async ({ page, limit }: { page: number; limit: number }) => {
+export const getAllUsers = async ({ page, limit }: { page: number; limit: number }) => {
   const offset = (page - 1) * limit;
   const [rows] = await pool.query('SELECT id, username, email, full_name, phone, address, role, created_at, updated_at FROM users LIMIT ? OFFSET ?', [limit, offset]);
   return rows;
 };
 
-exports.updateUser = async (id: number, { username, email, password, full_name, phone, address, role }: CreateUserParams) => {
+export const updateUser = async (id: number, { username, email, password, full_name, phone, address, role }: CreateUserParams) => {
   const fields = [];
   const values = [];
   if (username) { fields.push('username = ?'); values.push(username); }
@@ -71,6 +71,6 @@ exports.updateUser = async (id: number, { username, email, password, full_name, 
   await pool.query(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`, values);
 };
 
-exports.deleteUser = async (id: number) => {
+export const deleteUser = async (id: number) => {
   await pool.query('DELETE FROM users WHERE id = ?', [id]);
 };

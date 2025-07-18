@@ -26,3 +26,94 @@ export async function register({ username, email, password, full_name, phone, ad
     return user;
 }
 
+export async function login(email: string, password: string) {
+    const user = await userModel.getUserByEmail(email);
+    if(!user) {
+        throw new Error('Invalid email or password');
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if(!isPasswordValid) {
+        throw new Error('Invalid password');
+    }
+    return user;
+}
+
+//Authen Users
+
+export async function getProfile(userId: number) {
+  const user = await userModel.getUserById(userId);
+  if(!user) {
+    throw new Error('User not found');
+  }
+  return user;
+}
+
+export async function updateProfile(userId: number, { username, email, password, full_name, phone, address }: CreateUserParams) {
+  if(password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    password = hashedPassword;
+  }
+  await userModel.updateUser(userId, {
+    username,
+    email,
+    password,
+    full_name,
+    phone,
+    address,
+    role: 'user'
+  });
+}
+
+export async function deleteProfile(userId: number) {
+  const user = await userModel.getUserById(userId);
+  if(!user) {
+    throw new Error('User not found');
+  }
+  await userModel.deleteUser(userId);
+}
+
+//Admin
+
+export async function getUserById(userId: number) {
+  const user = await userModel.getUserById(userId);
+  if(!user) {
+    throw new Error('User not found');
+  }
+  return user;
+}
+
+export async function getAllUsers(page = 1, limit = 10) {
+  const users = await userModel.getAllUsers({page, limit});
+  return users;
+}
+
+export async function deleteUser(userId: number) {
+  const user = await userModel.deleteUser(userId);
+  return user;
+}
+
+export async function getUserByEmail(email: string) {
+  const user = await userModel.getUserByEmail(email);
+  if(!user) {
+    throw new Error('User not found');
+  }
+  return user;
+}
+
+export async function updateUser(userId: number, { username, email, password, full_name, phone, address, role }: CreateUserParams) {
+  if(password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    password = hashedPassword;
+  }
+  await userModel.updateUser(userId, {
+    username,
+    email,
+    password,
+    full_name,
+    phone,
+    address,
+    role
+  });
+  return getUserById(userId);
+}
+
