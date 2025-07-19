@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import * as userModel from '../models/users.model';
-
+import config from '../config/config';
 interface CreateUserParams {
   username: string;
   email: string;
@@ -35,7 +35,8 @@ export async function login(email: string, password: string) {
     if(!isPasswordValid) {
         throw new Error('Invalid password');
     }
-    return user;
+    const token = jwt.sign({ userId: user.id, role: user.role }, config.JWT_SECRET, { expiresIn: '1d' });
+    return {user, token};
 }
 
 //Authen Users

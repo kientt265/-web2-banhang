@@ -8,8 +8,8 @@ import adminMiddleware from '../middleware/adminMiddleware';
 const router = Router();
 
 //Public Routes
-router.post('/userRegister', validateSchema(validator.registerSchema) , userController.register);
-router.get('/userLogin', validateSchema(validator.loginSchema), userController.login);
+router.post('/SignUp', validateSchema(validator.registerSchema) , userController.register);
+router.get('/Login', validateSchema(validator.loginSchema), userController.login);
 
 router.use(authMiddleware);
 //Authen Users

@@ -22,8 +22,8 @@ export const login = async (req: Request, res: Response) => {
     if (!req.body || !req.body.email || !req.body.password) {
       return res.status(400).json({ error: 'Vui lòng nhập thông tin đăng nhập!' });
     }
-    const user = await userService.login(req.body.email, req.body.password);
-    res.status(200).json({id: user.id, message: 'Đăng nhập thành công'});
+    const {user, token} = await userService.login(req.body.email, req.body.password);
+    res.status(200).json({token, user: {id: user.id, user: user.username, email: user.email, role: user.role}, message: 'Đăng nhập thành công'});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: `Lỗi đăng nhập người dùng: ${err}` });
@@ -33,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const getProfile = async (req: Request, res: Response) => {
   try {
-    const user = await userService.getUserById(req.body.id);
+    const user = await userService.getProfile(parseInt(req.user!.userId));
     res.status(200).json({user, message: 'Lấy thông tin người dùng thành công'});
   } catch (err) {
     console.error(err);
