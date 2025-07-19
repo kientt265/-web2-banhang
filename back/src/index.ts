@@ -5,6 +5,7 @@ import productRoutes from './routes/products.route';
 import categoriRoutes from './routes/categories.route';
 import cartRoutes from './routes/carts.route';
 import orderRoutes from './routes/orders.route';
+import reviewRoutes from './routes/reviews.route';
 const app: Express = express();
 const port: number = Number(process.env.PORT) || 5000;
 
@@ -18,6 +19,7 @@ app.use('/products', productRoutes);
 app.use('/categories', categoriRoutes);
 app.use('/carts', cartRoutes);
 app.use('/orders', orderRoutes);
+app.use('/reviews', reviewRoutes);
 app.listen(port, () => {
     console.log(`Server running ${port}`);
 });

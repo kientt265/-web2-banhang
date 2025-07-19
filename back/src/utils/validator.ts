@@ -73,3 +73,14 @@ export const createOrderSchema = Joi.object({
 export const updateOrderStatusSchema = Joi.object({
   status: Joi.string().valid('pending', 'processing', 'shipped', 'delivered', 'cancelled').required(),
 });
+
+export const createReviewSchema = Joi.object({
+  product_id: Joi.number().integer().min(1).required(),
+  rating: Joi.number().integer().min(1).max(5).required(),
+  comment: Joi.string().optional().allow(''),
+});
+
+export const updateReviewSchema = Joi.object({
+  rating: Joi.number().integer().min(1).max(5).optional(),
+  comment: Joi.string().optional().allow(''),
+}).min(1);

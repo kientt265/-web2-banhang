@@ -91,6 +91,16 @@ export const orderModel = {
     }
   },
 
+  async getOrderItemsByUserAndProduct(userId: number, productId: number) {
+    const [rows] = await pool.query(
+      'SELECT oi.id FROM order_items oi JOIN orders o ON oi.order_id = o.id WHERE o.user_id = ? AND oi.product_id = ?',
+      [userId, productId]
+    );
+    return rows;
+  },
+
+  
+
   async updateOrderStatus(orderId: number, status: string) {
     await pool.query<ResultSetHeader[]>('UPDATE orders SET status = ? WHERE id = ?', [status, orderId]);
   },
