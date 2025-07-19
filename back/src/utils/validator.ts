@@ -24,3 +24,23 @@ export const updateUserSchema = Joi.object({
   address: Joi.string().optional(),
   role: Joi.string().valid('user', 'admin').optional(),
 });
+
+export const createProductSchema = Joi.object({
+  name: Joi.string().min(1).max(200).required(),
+  description: Joi.string().optional().allow(''),
+  price: Joi.number().min(0).required(),
+  stock_quantity: Joi.number().integer().min(0).required(),
+  category_id: Joi.number().integer().optional(),
+  image_url: Joi.string().uri().optional().allow(''),
+  status: Joi.string().valid('active', 'inactive', 'out_of_stock').optional(),
+});
+
+export const updateProductSchema = Joi.object({
+  name: Joi.string().min(1).max(200).optional(),
+  description: Joi.string().optional().allow(''),
+  price: Joi.number().min(0).optional(),
+  stock_quantity: Joi.number().integer().min(0).optional(),
+  category_id: Joi.number().integer().optional(),
+  image_url: Joi.string().uri().optional().allow(''),
+  status: Joi.string().valid('active', 'inactive', 'out_of_stock').optional(),
+}).min(1);
