@@ -44,3 +44,15 @@ export const updateProductSchema = Joi.object({
   image_url: Joi.string().uri().optional().allow(''),
   status: Joi.string().valid('active', 'inactive', 'out_of_stock').optional(),
 }).min(1);
+
+export const createCategorySchema = Joi.object({
+  name: Joi.string().min(1).max(100).required(),
+  description: Joi.string().optional().allow(''),
+  parent_id: Joi.number().integer().optional().allow(null),
+});
+
+export const updateCategorySchema = Joi.object({
+  name: Joi.string().min(1).max(100).optional(),
+  description: Joi.string().optional().allow(''),
+  parent_id: Joi.number().integer().optional().allow(null),
+}).min(1);
