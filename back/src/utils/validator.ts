@@ -56,3 +56,20 @@ export const updateCategorySchema = Joi.object({
   description: Joi.string().optional().allow(''),
   parent_id: Joi.number().integer().optional().allow(null),
 }).min(1);
+
+export const addCartItemSchema = Joi.object({
+  product_id: Joi.number().integer().min(1).required(),
+  quantity: Joi.number().integer().min(1).required(),
+});
+
+export const updateCartItemSchema = Joi.object({
+  quantity: Joi.number().integer().min(1).required(),
+});
+
+export const createOrderSchema = Joi.object({
+  shipping_address: Joi.string().min(1).required(),
+});
+
+export const updateOrderStatusSchema = Joi.object({
+  status: Joi.string().valid('pending', 'processing', 'shipped', 'delivered', 'cancelled').required(),
+});
