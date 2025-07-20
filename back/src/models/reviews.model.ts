@@ -12,7 +12,7 @@ export const reviewModel = {
   async getReviewsByProduct(productId: number, { page, limit }: { page: number; limit: number }) {
     const offset = (page - 1) * limit;
     const [rows] = await pool.query<RowDataPacket[]>(
-      'SELECT r.id, r.user_id, r.product_id, r.rating, r.comment, r.created_at, r.updated_at, u.username ' +
+      'SELECT r.id, r.user_id, r.product_id, r.rating, r.comment, r.created_at, u.username ' +
       'FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.product_id = ? LIMIT ? OFFSET ?',
       [productId, limit, offset]
     );

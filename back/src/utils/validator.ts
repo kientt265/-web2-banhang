@@ -86,3 +86,7 @@ export const updateReviewSchema = Joi.object({
   comment: Joi.string().optional().allow(''),
 }).min(1);
 
+export const addWishlistItemSchema = Joi.object({
+  product_id: Joi.number().integer().min(1).required(),
+});
+
