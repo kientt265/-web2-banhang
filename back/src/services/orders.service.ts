@@ -19,8 +19,9 @@ export const orderService = {
     return order;
   },
 
-  async createOrder(userId: number, shipping_address: string) {
+  async createOrder(userId: number, shipping_address: string, shipping_phone: string) {
     if (!shipping_address) throw new Error('Shipping address is required');
+    if (!shipping_phone) throw new Error('Shipping phone is required');
 
     const cart = await cartModel.getCartByUserId(userId);
     if (!cart) throw new Error('Cart is empty');
@@ -28,7 +29,7 @@ export const orderService = {
     if (!cartItems.length) throw new Error('Cart is empty');
 
     let total_amount = 0;
-    const orderItems: { product_id: number; quantity: number; unit_price: number }[] = [];
+    const orderItems: { product_id: number; quantity: number; price: number }[] = [];
 
     for (const item of cartItems) {
       const product = await productModel.getProductById(item.product_id);
@@ -37,10 +38,10 @@ export const orderService = {
       if (product.status !== 'active') throw new Error(`Product ${product.name} is not available`);
 
       total_amount += product.price * item.quantity;
-      orderItems.push({ product_id: item.product_id, quantity: item.quantity, unit_price: product.price });
+      orderItems.push({ product_id: item.product_id, quantity: item.quantity, price: product.price });
     }
 
-    const order = await orderModel.createOrder(userId, total_amount, shipping_address, orderItems);
+    const order = await orderModel.createOrder(userId, total_amount, shipping_address, shipping_phone, orderItems);
 
     // Cập nhật số lượng tồn kho
     for (const item of cartItems) {

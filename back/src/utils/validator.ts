@@ -68,6 +68,7 @@ export const updateCartItemSchema = Joi.object({
 
 export const createOrderSchema = Joi.object({
   shipping_address: Joi.string().min(1).required(),
+  shipping_phone: Joi.string().min(1).required()
 });
 
 export const updateOrderStatusSchema = Joi.object({
@@ -84,3 +85,4 @@ export const updateReviewSchema = Joi.object({
   rating: Joi.number().integer().min(1).max(5).optional(),
   comment: Joi.string().optional().allow(''),
 }).min(1);
+

@@ -34,7 +34,7 @@ export const reviewService = {
     if (product.status !== 'active') throw new Error('Cannot review inactive product');
 
     // Kiểm tra xem người dùng đã mua sản phẩm chưa
-    const hasPurchased = await orderModel.getOrderItemsByUserAndProduct(userId, product_id);
+    const hasPurchased = await orderModel.getOrderItemsCompleted(userId, product_id);
     if (!Array.isArray(hasPurchased) || hasPurchased.length === 0) {
       throw new Error('You must purchase the product to leave a review');
     }

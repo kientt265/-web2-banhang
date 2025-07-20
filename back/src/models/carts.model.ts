@@ -7,10 +7,19 @@ interface CartItemData {
   quantity: number;
 }
 
+// types/cart.type.ts
+export interface Cart {
+  id: number;
+  user_id: number;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+
 export const cartModel = {
   async getCartByUserId(userId: number) {
     const [rows] = await pool.query<RowDataPacket[]>('SELECT id, user_id, created_at, updated_at FROM carts WHERE user_id = ?', [userId]);
-    return rows[0];
+    return rows[0] as Cart | undefined;
   },
 
   async createCart(userId: number) {

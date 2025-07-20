@@ -5,7 +5,7 @@ import { ResultSetHeader, RowDataPacket } from 'mysql2';
 interface OrderItemData {
   product_id: number;
   quantity: number;
-  unit_price: number;
+  price: number;
 }
 
 export const orderModel = {
@@ -56,28 +56,28 @@ export const orderModel = {
 
   async getOrderItems(orderId: number) {
     const [rows] = await pool.query<RowDataPacket[]>(
-      'SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.unit_price, p.name, p.image_url ' +
+      'SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.price, p.name, p.image_url ' +
       'FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?',
       [orderId]
     );
     return rows;
   },
 
-  async createOrder(userId: number, total_amount: number, shipping_address: string, orderItems: OrderItemData[]) {
+  async createOrder(userId: number, total_amount: number, shipping_address: string, shipping_phone: string, orderItems: OrderItemData[]) {
     const connection = await pool.getConnection();
     try {
       await connection.beginTransaction();
 
       const [result] = await connection.query<ResultSetHeader[]>(
-        'INSERT INTO orders (user_id, total_amount, shipping_address) VALUES (?, ?, ?)',
-        [userId, total_amount, shipping_address]
+        'INSERT INTO orders (user_id, total_amount, shipping_address, shipping_phone) VALUES (?, ?, ?, ?)',
+        [userId, total_amount, shipping_address, shipping_phone]
       );
       const orderId = (result as any).insertId;
 
       for (const item of orderItems) {
         await connection.query<ResultSetHeader[]>(
-          'INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)',
-          [orderId, item.product_id, item.quantity, item.unit_price]
+          'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)',
+          [orderId, item.product_id, item.quantity, item.price]
         );
       }
 
@@ -95,6 +95,14 @@ export const orderModel = {
     const [rows] = await pool.query(
       'SELECT oi.id FROM order_items oi JOIN orders o ON oi.order_id = o.id WHERE o.user_id = ? AND oi.product_id = ?',
       [userId, productId]
+    );
+    return rows;
+  },
+
+  async getOrderItemsCompleted(userId: number, productId: number) {
+    const [rows] = await pool.query(
+      'SELECT oi.id FROM order_items oi JOIN orders o ON oi.order_id = o.id WHERE o.user_id =? AND oi.product_id =? AND o.status =?',
+      [userId, productId, 'delivered']
     );
     return rows;
   },

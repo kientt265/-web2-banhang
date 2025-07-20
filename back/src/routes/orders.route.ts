@@ -14,7 +14,7 @@ router.post('/', authMiddleware, validateSchema(validator.createOrderSchema), or
 router.delete('/:id', authMiddleware, orderController.cancelOrder);
 
 // Admin routes
-router.get('/all', authMiddleware, adminMiddleware, orderController.getAllOrders);
+router.get('/all', authMiddleware, adminMiddleware, orderController.getAllOrders); //bug query order 1, 2 canceled
 router.put('/:id/status', authMiddleware, adminMiddleware, validateSchema(validator.updateOrderStatusSchema), orderController.updateOrderStatus);
 
 export default router;

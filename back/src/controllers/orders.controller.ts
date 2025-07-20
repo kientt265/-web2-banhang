@@ -47,12 +47,15 @@ export const orderController = {
       const userId = req.user?.userId;
       if (!userId) return next(createError(401, 'User ID not found'));
       
-      const { shipping_address } = req.body;
+      const { shipping_address, shipping_phone } = req.body;
       if (!shipping_address || typeof shipping_address !== 'string' || shipping_address.trim().length === 0) {
         return next(createError(400, 'Valid shipping address is required'));
       }
+      if (!shipping_phone || typeof shipping_phone !== 'string' || shipping_phone.trim().length === 0) {
+        return next(createError(400, 'Valid shipping phone is required'));
+      }
       
-      const order = await orderService.createOrder(parseInt(userId), shipping_address.trim());
+      const order = await orderService.createOrder(parseInt(userId), shipping_address.trim(), shipping_phone.trim());
       res.status(201).json({ id: order.id, message: 'Order created successfully' });
     } catch (error: any) {
       next(createError(400, error.message));
