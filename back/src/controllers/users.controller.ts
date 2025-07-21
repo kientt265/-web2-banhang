@@ -43,7 +43,7 @@ export const getProfile = async (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
   try {
-    if (!req.body ||!req.body.username ||!req.body.email ||!req.body.password ||!req.body.full_name ||!req.body.phone ||!req.body.address) {
+    if (!req.body ||!req.body.username ||!req.body.email  ||!req.body.full_name ||!req.body.phone ||!req.body.address) {
       return res.status(400).json({ error: 'Vui lòng nhập thông tin người dùng!' });
     }
     const user = await userService.updateProfile(req.body.id, req.body);
@@ -56,9 +56,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 
 export const deleteProfile = async (req: Request, res: Response) => {
   try {
-    if (!req.body ||!req.body.id) {
-      return res.status(400).json({ error: 'Vui lòng nhập thông tin người dùng!' });
-    }
+    
     const user = await userService.deleteProfile(req.body.id);
     res.status(200).json({message: 'Xóa người dùng thành công'});
   } catch (err) {

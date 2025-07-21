@@ -21,7 +21,10 @@ export const userService = {
     api.post('/users/Login', data).then((res) => res.data),
   register: (data: { username: string; email: string; password: string }) =>
     api.post('/users/SignUp', data).then((res) => res.data),
-  getProfile: () => api.get('/users/profile').then((res) => res.data),
+  getProfile: () => api.get('/users/Profile').then((res) => res.data),
+  updateProfile: (data: { username?: string; email?: string; password?: string;  full_name: string; phone?: string; address?: string }) =>
+    api.put('/users/Profile', data).then((res) => res.data),
+  deleteAccount: () => api.delete('/users/Profile').then((res) => res.data),
 };
 
 export const productService = {
