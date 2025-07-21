@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { authAtom } from '../context/auth';
-import { get } from 'jotai';
+import { getDefaultStore } from 'jotai';
+
+const store = getDefaultStore();
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api', // Thay bằng URL backend của bạn
+  baseURL: 'http://localhost:5000/', 
 });
 
 api.interceptors.request.use((config) => {
-  const auth = get(authAtom);
+  const auth = store.get(authAtom);
   if (auth.token) {
     config.headers.Authorization = `Bearer ${auth.token}`;
   }
