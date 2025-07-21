@@ -51,7 +51,7 @@ function Header() {
         <div>
         <Link
               className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
-              to="/register"
+              to="/Signup"
             >
               Sign Up
             </Link>

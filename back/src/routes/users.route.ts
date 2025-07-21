@@ -9,7 +9,7 @@ const router = Router();
 
 //Public Routes
 router.post('/SignUp', validateSchema(validator.registerSchema) , userController.register);
-router.get('/Login', validateSchema(validator.loginSchema), userController.login);
+router.post('/Login', validateSchema(validator.loginSchema), userController.login);
 
 router.use(authMiddleware);
 //Authen Users

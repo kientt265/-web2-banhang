@@ -1,7 +1,11 @@
-export interface User {
-    id: number;
+  export interface User {
+    id?: number;
     username: string;
     email: string;
+    password: string;
+    full_name: string;
+    phone?: string;
+    address?: string;
     role: 'user' | 'admin';
   }
   

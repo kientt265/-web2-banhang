@@ -18,9 +18,9 @@ api.interceptors.request.use((config) => {
 
 export const userService = {
   login: (data: { email: string; password: string }) =>
-    api.post('/users/login', data).then((res) => res.data),
+    api.post('/users/Login', data).then((res) => res.data),
   register: (data: { username: string; email: string; password: string }) =>
-    api.post('/users/register', data).then((res) => res.data),
+    api.post('/users/SignUp', data).then((res) => res.data),
   getProfile: () => api.get('/users/profile').then((res) => res.data),
 };
 
