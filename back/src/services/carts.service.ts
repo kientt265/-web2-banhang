@@ -6,8 +6,6 @@ interface CartItemData {
   quantity: number;
 }
 
-
-
 export const cartService = {
   async getCart(userId: number) {
     if (!userId) throw new Error('User ID is required');
