@@ -55,4 +55,13 @@ interface ProductFilter {
         if (!product) throw new Error('Product not found');
         await productModel.deleteProduct(id);
       },
-  }
+
+  async getProductsByCategory({ categoryId, page, limit }: { categoryId: number; page: number; limit: number }) {
+    if (!categoryId) throw new Error('Category ID is required');
+    return await productModel.getAllProducts({ 
+      category_id: categoryId,
+      page,
+      limit 
+    });
+  },
+}

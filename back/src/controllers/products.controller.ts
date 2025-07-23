@@ -54,4 +54,21 @@ export const productController = {
       next(createError(400, error.message));
     }
   },
+
+  async getProductsByCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { page = '1', limit = '10' } = req.query;
+      const categoryId = parseInt(req.params.categoryId);
+      
+      const products = await productService.getProductsByCategory({
+        categoryId,
+        page: parseInt(page as string),
+        limit: parseInt(limit as string),
+      });
+      
+      res.json(products);
+    } catch (error: any) {
+      next(createError(500, error.message));
+    }
+  },
 };

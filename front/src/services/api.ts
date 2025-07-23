@@ -31,6 +31,8 @@ export const productService = {
   getAll: (params?: { category_id?: number; status?: string; page?: number; limit?: number }) =>
     api.get('/products', { params }).then((res) => res.data),
   getById: (id: number) => api.get(`/products/${id}`).then((res) => res.data),
+  getByCategory: (categoryId: number, params?: { status?: string; page?: number; limit?: number }) =>
+    api.get(`/products/category/${categoryId}`, { params }).then((res) => res.data),
 };
 
 export const categoryService = {

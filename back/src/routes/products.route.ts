@@ -8,6 +8,7 @@ const router = express.Router();
 
 // Public routes
 router.get('/', productController.getAllProducts);
+router.get('/category/:categoryId', productController.getProductsByCategory); // Thêm route mới
 router.get('/:id', productController.getProductById);
 
 // Admin routes

@@ -4,6 +4,7 @@ import Home from './pages/public/Home';
 import Login from './pages/public/Login';
 import Signup from './pages/public/Signup';
 import Profile from './pages/public/Profile';
+import ProductWithCategory from './pages/public/ProductWithCategory.tsx';
 function App() {
 
 
@@ -11,6 +12,7 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/Category/:id" element={<ProductWithCategory />} />
         <Route path="/Login" element={<Login/>} />
         <Route path="/Signup" element={<Signup/>} />
         <Route path="/Profile" element={<Profile/>} />
