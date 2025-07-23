@@ -4,6 +4,8 @@ import { useAtom } from 'jotai';
 import { authAtom } from '../../context/auth';
 import { wishlistService } from '../../services/api';
 import cartadd_icon from '../../assets/addcart_icon.png';
+import AddToCartModal from '../cart/AddToCartModal';
+import { useState } from 'react';
 
 interface ProductCardProps {
   product: Product;
@@ -11,7 +13,7 @@ interface ProductCardProps {
 
 function ProductCard({ product }: ProductCardProps) {
   const [auth] = useAtom(authAtom);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleAddToWishlist = async () => {
     if (!auth.token) {
       alert('Please login to add to wishlist');
@@ -40,11 +42,16 @@ function ProductCard({ product }: ProductCardProps) {
         </button>
       )}
       {product.status === 'active' && (
-          <button onClick={handleAddToWishlist} className="flex items-center justify-center p-2  text-white rounded hover:bg-green-600 transition duration-200 cursor-pointer">
+          <button onClick={() => setIsModalOpen(true)} className="flex items-center justify-center p-2  text-white rounded hover:bg-green-600 transition duration-200 cursor-pointer">
           <img src={cartadd_icon} className="w-5 h-5" alt="" />
         </button>
       )}
       </div>
+      <AddToCartModal
+        product={product}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
