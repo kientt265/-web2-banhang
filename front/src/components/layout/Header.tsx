@@ -83,7 +83,7 @@ function Header() {
             <Link to="/Profile">
               <img src={user_icon} alt="Cart" className="w-6 h-6 hover:opacity-80" />
             </Link>
-            <Link to="/cart">
+            <Link to="/Cart">
             <img src={cart_icon} alt="Cart" className="w-6 h-6 hover:opacity-80" />
             </Link>
           </div>

@@ -2,7 +2,7 @@ import express from 'express';
 import { cartController } from '../controllers/carts.controller';
 import authMiddleware from '../middleware/authMiddleware';
 import adminMiddleware from '../middleware/adminMiddleware';
-import {validateSchema, validateParams} from '../middleware/validate';
+import {validateSchema} from '../middleware/validate';
 import * as validator from '../utils/validator';
 
 const router = express.Router();
