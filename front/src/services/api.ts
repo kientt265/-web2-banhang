@@ -55,7 +55,7 @@ export const orderService = {
   getUserOrders: (params?: { status?: string; page?: number; limit?: number }) =>
     api.get('/orders', { params }).then((res) => res.data),
   getOrderById: (id: number) => api.get(`/orders/${id}`).then((res) => res.data),
-  createOrder: (data: { shipping_address: string }) =>
+  createOrder: (data: { shipping_address: string, shipping_phone: string }) =>
     api.post('/orders', data).then((res) => res.data),
   cancelOrder: (id: number) => api.delete(`/orders/${id}`).then((res) => res.data),
 };

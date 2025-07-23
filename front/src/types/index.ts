@@ -1,5 +1,5 @@
   export interface User {
-    id: number;
+    id?: number;
     username: string;
     email: string;
     password: string;
@@ -53,8 +53,9 @@
     total_amount: number;
     status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
     shipping_address: string;
+    shipping_phone: string;
     created_at: string;
-    updated_at: string;
+    updated_at: string; 
     items: OrderItem[];
   }
   

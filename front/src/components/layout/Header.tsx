@@ -86,6 +86,7 @@ function Header() {
             <Link to="/Cart">
             <img src={cart_icon} alt="Cart" className="w-6 h-6 hover:opacity-80" />
             </Link>
+            <Link className='bg-blue-600 rounded p-2' to="/Order">My Orders</Link>
           </div>
         ) : (<Link
               className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
