@@ -54,6 +54,8 @@
     status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
     shipping_address: string;
     shipping_phone: string;
+    payment_method: 'cod' | 'bank_transfer'| 'e_wallet';
+    payment_status: 'pending' | 'paid' | 'failed';
     created_at: string;
     updated_at: string; 
     items: OrderItem[];

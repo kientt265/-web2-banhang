@@ -11,19 +11,63 @@ interface OrderItemData {
 export const orderModel = {
   async getOrdersByUserId(userId: number, { status, page, limit }: { status?: string; page: number; limit: number }) {
     const offset = (page - 1) * limit;
-    let query = 'SELECT id, user_id, total_amount, status, shipping_address, created_at, updated_at FROM orders WHERE user_id = ?';
+    let query = `
+      SELECT o.id, o.user_id, o.total_amount, o.status, o.shipping_address, o.shipping_phone,
+             o.payment_method, o.payment_status, o.created_at, o.updated_at,
+             oi.id as item_id, oi.product_id, oi.quantity, oi.price,
+             p.name as product_name, p.image_url as product_image
+      FROM orders o
+      LEFT JOIN order_items oi ON o.id = oi.order_id
+      LEFT JOIN products p ON oi.product_id = p.id
+      WHERE o.user_id = ?`;
+    
     const params: any[] = [userId];
 
     if (status) {
-      query += ' AND status = ?';
+      query += ' AND o.status = ?';
       params.push(status);
     }
 
-    query += ' LIMIT ? OFFSET ?';
+    query += ' ORDER BY o.created_at DESC LIMIT ? OFFSET ?';
     params.push(limit, offset);
 
     const [rows] = await pool.query<RowDataPacket[]>(query, params);
-    return rows;
+    
+    // Chuyển đổi kết quả phẳng thành cấu trúc phân cấp
+    const orders = rows.reduce((acc: any[], row: any) => {
+      let order = acc.find(o => o.id === row.id);
+      if (!order) {
+        order = {
+          id: row.id,
+          user_id: row.user_id,
+          total_amount: row.total_amount,
+          status: row.status,
+          shipping_address: row.shipping_address,
+          shipping_phone: row.shipping_phone,
+          payment_method: row.payment_method,
+          payment_status: row.payment_status,
+          created_at: row.created_at,
+          updated_at: row.updated_at,
+          items: []
+        };
+        acc.push(order);
+      }
+      
+      if (row.item_id) {
+        order.items.push({
+          id: row.item_id,
+          product_id: row.product_id,
+          quantity: row.quantity,
+          unit_price: row.price,
+          name: row.product_name,
+          image_url: row.product_image
+        });
+      }
+      
+      return acc;
+    }, []);
+
+    return orders;
   },
 
   async getAllOrders({ status, page, limit }: { status?: string; page: number; limit: number }) {

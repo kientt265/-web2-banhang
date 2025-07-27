@@ -1,24 +1,31 @@
 import type { Order } from "../../types"
-import OrderItemCard from "../../components/order/OrderItemCard"
+import OrderCart from "../../components/order/OrderCart"
 import { useQuery } from "@tanstack/react-query"
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { orderService } from "../../services/api"
+import createReviewModal from "../../components/review/CreateReviewModal"
+import { useState } from "react"
 
 function OrderList() {
-    const {data: orders, isLoading} = useQuery<Order>({
+    const {data: orders, isLoading} = useQuery<Order[]>({  
         queryKey: ['order'],
         queryFn: () => orderService.getUserOrders()
     })
+    
     if (isLoading) return <div>Loading...</div>;
+    if (!orders?.length) return <div>Bạn chưa có đơn hàng nào</div>;
+    
     return (
         <div>
+            <h2 className="text-2xl font-bold mb-4">Danh sách đơn hàng</h2>
             <div className="flex flex-wrap mx-4">
-                {orders?.items?.map((order)=> (
-                    <div key={order.id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 mb-6">
-                    <OrderItemCard orderItem={order} />
-                  </div>
+                {orders.map((order) => (
+                    <div>
+                        <OrderCart key={order.id} order={order} />
+
+                    </div>
                 ))}
             </div>
+
         </div>
     )
 }

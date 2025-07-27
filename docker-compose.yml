@@ -32,5 +32,7 @@ services:
       - DB_NAME=shop_db
       - JWT_SECRET=your_jwt_secret
 
+
+
 volumes:
   mysql_data:

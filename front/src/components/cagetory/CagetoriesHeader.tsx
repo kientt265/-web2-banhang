@@ -19,7 +19,7 @@ function CagetoriesHeader({ categories }: CagetoriesHeaderProps) {
                 }
             }}
             >
-              <option className='cursor-pointer' value="#">Loại sản phẩm</option>
+              <option className='cursor-pointer' value="">Loại sản phẩm</option>
               {categories?.map((category) => (
                 <option className='cursor-pointer' value = {category.id}>{category.name}</option>
               ))}

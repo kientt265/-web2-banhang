@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS wishlist (
 
 INSERT INTO users (username, email, password, full_name, phone, address, role)
 VALUES
-('admin', 'admin@example.com', 'hashed_password1', 'Admin User', '0123456789', '123 Admin St', 'admin'),
+('kienadmin', 'kienadmin@gmail.com', '$2b$10$gQqF.hWMBYW/QJwR9oMjFu8ynaBzDrIaX24RpFZLhW90DVpNwy1W6', 'Admin User', '0123456789', '123 Admin St', 'admin'),
 ('user1', 'user1@example.com', 'hashed_password2', 'User One', '0987654321', '456 User Ave', 'user');
 
 INSERT INTO categories (name, description)
