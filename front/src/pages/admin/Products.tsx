@@ -1,48 +1,25 @@
-import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminService } from '../../services/api';
-import type { Product } from '../../types';
 import ProductModal from '../../components/admin/products/ProductModal';
-
+import type { Product } from '../../types';
+import UseCrud from '../../components/admin/common/UseCrud.tsx';
 function AdminProducts() {
-  const queryClient = useQueryClient();
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { data: products, isLoading } = useQuery<Product[]>({
-    queryKey: ['admin-products'],
-    queryFn: () => adminService.getAll()
-  });
-
-  const createMutation = useMutation({
-    mutationFn: adminService.createProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
-      setIsModalOpen(false);
-    }
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<Product> }) =>
-      adminService.updateProduct(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
-      setIsModalOpen(false);
-    }
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: adminService.deleteProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-products'] });
-    }
-  });
-
-  const handleDelete = async (id: number) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      await deleteMutation.mutateAsync(id);
-    }
-  };
+  const {
+    items: products,
+    isLoading,
+    selectedItem: selectedProduct,
+    setSelectedItem: setSelectedProduct,
+    isModalOpen,
+    setIsModalOpen,
+    createMutation,
+    updateMutation,
+    handleDelete,
+  } = UseCrud<Product>(
+    'admin-products',
+    () => adminService.getAll(),
+    adminService.updateProduct,
+    adminService.deleteProduct,
+    adminService.createProduct
+  );
 
   if (isLoading) return <div>Đang tải...</div>;
 

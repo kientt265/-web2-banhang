@@ -32,7 +32,6 @@ function ProductModal({ product, onClose, onSubmit }: ProductModalProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Loại bỏ các trường không được phép cập nhật
     const { id, created_at, updated_at, ...submitData } = formData;
     onSubmit(submitData);
   };
@@ -44,7 +43,6 @@ function ProductModal({ product, onClose, onSubmit }: ProductModalProps) {
           {product ? 'Chỉnh sửa sản phẩm' : 'Thêm sản phẩm mới'}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Loại bỏ trường id khỏi form */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Tên sản phẩm</label>
             <input
@@ -73,18 +71,21 @@ function ProductModal({ product, onClose, onSubmit }: ProductModalProps) {
               required
             />
           </div>
+
           <div>
-            <select className="cursor-pointer text-lg font-semibold text-gray-600 hover:text-gray-800 rounded px-2 py-1" name="" id=""  onChange={(e) => {
-                const selectedCategoryId  = e.target.value;
-                if (selectedCategoryId ) {
-                    setFormData({...formData, category_id: Number(selectedCategoryId) });
-                }
+            <label className="block text-sm font-medium text-gray-700">Loại sản phẩm</label>
+            <select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500" name="" id="" onChange={(e) => {
+              const selectedCategoryId = e.target.value;
+              if (selectedCategoryId) {
+                setFormData({ ...formData, category_id: Number(selectedCategoryId) });
+              }
             }}>
-            <option className='cursor-pointer' value="">Loại sản phẩm</option>
+
+
               {categories?.map((category) => (
-                <option className='cursor-pointer' value = {category.id}>{category.name}</option>
+                <option className='cursor-pointer' value={category.id}>{category.name}</option>
               ))}
-            <option className='cursor-pointer bg-blue-500'  value="">Thêm loại sản phẩm</option>
+              <option className='cursor-pointer bg-blue-500' value="">Thêm loại sản phẩm</option>
             </select>
           </div>
           <div>

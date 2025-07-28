@@ -83,11 +83,11 @@ export const wishlistService = {
 export const adminService = {
   // Users
   getAllUsers: (params?: { page?: number; limit?: number }) =>
-    api.get('/admin/users', { params }).then((res) => res.data),
+    api.get('/users', { params }).then((res) => res.data),
   updateUser: (id: number, data: Partial<User>) =>
-    api.put(`/admin/users/${id}`, data).then((res) => res.data),
+    api.put(`/users/${id}`, data).then((res) => res.data),
   deleteUser: (id: number) =>
-    api.delete(`/admin/users/${id}`).then((res) => res.data),
+    api.delete(`/users/${id}`).then((res) => res.data),
 
   // Products
   getAll: (params?: { category_id?: number; status?: string; page?: number; limit?: number }) =>
@@ -108,6 +108,14 @@ export const adminService = {
     api.delete(`/admin/categories/${id}`).then((res) => res.data),
 
   // Orders
+  getAllOrders: (params?: { status?: string; page?: number; limit?: number }) =>
+    api.get('/orders', { params }).then((res) => res.data),
   updateOrderStatus: (id: number, status: string) =>
-    api.put(`/admin/orders/${id}/status`, { status }).then((res) => res.data),
+    api.put(`/orders/${id}/status`, { status }).then((res) => res.data),
+
+  // Reviews
+  getAllReviews: (params?: { page?: number; limit?: number }) =>
+    api.get('/reviews', { params }).then((res) => res.data),
+  deleteReview: (id: number) =>
+    api.delete(`/reviews/${id}`).then((res) => res.data),
 };

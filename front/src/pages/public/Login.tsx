@@ -35,7 +35,7 @@ function Login() {
             };
             const response = await userService.login(loginData);
             setAuth({ token: response.token, user: response.user });
-            navigate(response.user.role === 'admin' ? '/admin/products' : '/');
+            navigate(response.user.role === 'admin' ? '/admin/users' : '/');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Login failed. Please try again.');
         } finally {

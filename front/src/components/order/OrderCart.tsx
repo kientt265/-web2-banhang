@@ -23,7 +23,7 @@ function OrderCart({ order }: OrderCardProps) {
             {order.items?.map((orderItem) => (
                 <div>
                     <OrderItemCart orderItem={orderItem} key={orderItem.id} />
-                    {order.status === 'delivered' ? <CreateReviewModal product_id={orderItem.product_id} onClose={setIsOpen(false)} isOpen={isOpen}/> : null}
+                    {order.status === 'delivered' ? <CreateReviewModal product_id={orderItem.product_id} onClose={() => setIsOpen(false)} isOpen={isOpen}/> : null}
                 </div>
             ))}
         </div>

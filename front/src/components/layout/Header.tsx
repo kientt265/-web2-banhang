@@ -82,17 +82,17 @@ function Header() {
           ) : (
             <div>
               <Link
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
-            to="/Signup"
-          >
-            Sign Up
-          </Link>
-          <Link
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mx-2"
-          to="/Login"
-        >
-          Log In
-        </Link>
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
+                to="/Signup"
+              >
+                Sign Up
+              </Link>
+              <Link
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mx-2"
+                to="/Login"
+              >
+                Log In
+              </Link>
             </div>
           )
           }
