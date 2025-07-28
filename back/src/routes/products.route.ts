@@ -12,6 +12,7 @@ router.get('/category/:categoryId', productController.getProductsByCategory); //
 router.get('/:id', productController.getProductById);
 
 // Admin routes
+
 router.post('/', authMiddleware, adminMiddleware, validateSchema(validator.createProductSchema), productController.createProduct);
 router.put('/:id', authMiddleware, adminMiddleware, validateSchema(validator.updateProductSchema), productController.updateProduct);
 router.delete('/:id', authMiddleware, adminMiddleware, productController.deleteProduct);

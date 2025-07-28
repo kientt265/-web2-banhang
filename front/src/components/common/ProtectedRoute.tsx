@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
   role?: 'user' | 'admin';
 }
 
-export function ProtectedRoute({ element, role }: ProtectedRouteProps) {
+export default function ProtectedRoute({ element, role }: ProtectedRouteProps) {
   const [auth] = useAtom(authAtom);
 
   if (!auth.token) {

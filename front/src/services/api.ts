@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { authAtom } from '../context/auth';
 import { getDefaultStore } from 'jotai';
+import type { User, Product, Category, Order, Review, WishlistItem} from '../types';
 
 const store = getDefaultStore();
 
@@ -76,4 +77,37 @@ export const wishlistService = {
   moveToCart: (data: { product_id: number }) => api.post('/wishlist/to-cart', data).then((res) => res.data),
   deleteItem: (productId: number) => api.delete(`/wishlist/${productId}`).then((res) => res.data),
   clearWishlist: () => api.delete('/wishlist').then((res) => res.data),
+};
+
+// Thêm các services cho admin
+export const adminService = {
+  // Users
+  getAllUsers: (params?: { page?: number; limit?: number }) =>
+    api.get('/admin/users', { params }).then((res) => res.data),
+  updateUser: (id: number, data: Partial<User>) =>
+    api.put(`/admin/users/${id}`, data).then((res) => res.data),
+  deleteUser: (id: number) =>
+    api.delete(`/admin/users/${id}`).then((res) => res.data),
+
+  // Products
+  getAll: (params?: { category_id?: number; status?: string; page?: number; limit?: number }) =>
+    api.get('/products', { params }).then((res) => res.data),
+  createProduct: (data: Partial<Product>) =>
+    api.post('/products', data).then((res) => res.data),
+  updateProduct: (id: number, data: Partial<Product>) =>
+    api.put(`/products/${id}`, data).then((res) => res.data),
+  deleteProduct: (id: number) =>
+    api.delete(`/products/${id}`).then((res) => res.data),
+
+  // Categories
+  createCategory: (data: Partial<Category>) =>
+    api.post('/admin/categories', data).then((res) => res.data),
+  updateCategory: (id: number, data: Partial<Category>) =>
+    api.put(`/admin/categories/${id}`, data).then((res) => res.data),
+  deleteCategory: (id: number) =>
+    api.delete(`/admin/categories/${id}`).then((res) => res.data),
+
+  // Orders
+  updateOrderStatus: (id: number, status: string) =>
+    api.put(`/admin/orders/${id}/status`, { status }).then((res) => res.data),
 };
