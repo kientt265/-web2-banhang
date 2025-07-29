@@ -32,7 +32,7 @@ export const orderController = {
       if (!userId) return next(createError(401, 'User ID not found'));
       
       const orderId = parseInt(req.params.id);
-      if (isNaN(orderId)) return next(createError(400, 'Invalid order ID'));
+      if (isNaN(orderId)) return next(createError(400, 'Invalid order ID getbyId'));
       
       const order = await orderService.getOrderById(parseInt(userId), orderId);
       if (!order) return next(createError(404, 'Order not found'));
@@ -68,7 +68,7 @@ export const orderController = {
       if (!userId) return next(createError(401, 'User ID not found'));
       
       const orderId = parseInt(req.params.id);
-      if (isNaN(orderId)) return next(createError(400, 'Invalid order ID'));
+      if (isNaN(orderId)) return next(createError(400, 'Invalid order ID cancel'));
       
       await orderService.cancelOrder(parseInt(userId), orderId);
       res.json({ message: 'Order cancelled successfully' });
@@ -100,7 +100,7 @@ export const orderController = {
   async updateOrderStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const orderId = parseInt(req.params.id);
-      if (isNaN(orderId)) return next(createError(400, 'Invalid order ID'));
+      if (isNaN(orderId)) return next(createError(400, 'Invalid order ID updat status'));
       
       const { status } = req.body;
       if (!status || typeof status !== 'string' || !['pending', 'processing', 'shipped', 'delivered', 'cancelled'].includes(status)) {

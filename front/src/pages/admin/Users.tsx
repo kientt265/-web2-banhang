@@ -25,50 +25,9 @@ function AdminUsers() {
   if (isLoading) return <div>Đang tải...</div>;
 
   return (
-    // <div>
-    //   <h1>Quản lý user</h1>
-    //   <table>
-    //     <thead>
-    //       <tr>
-    //         <th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Thao tác</th>
-    //       </tr>
-    //     </thead>
-    //     <tbody>
-    //       {users?.map((user) => (
-    //         <tr key={user.id}>
-    //           <td>{user.id}</td><td>{user.username}</td><td>{user.email}</td><td>{user.role}</td>
-    //           <td>
-    //             <button onClick={() => { setSelectedUser(user); setIsModalOpen(true); }}>Sửa</button>
-    //             <button onClick={() => handleDelete(user.id!)}>Xóa</button>
-    //           </td>
-    //         </tr>
-    //       ))}
-    //     </tbody>
-    //   </table>
-    //   {isModalOpen && (
-    //     <UserModal
-    //       user={selectedUser}
-    //       onClose={() => setIsModalOpen(false)}
-    //       onSubmit={(data) => {
-    //         if (selectedUser) {
-    //           updateMutation.mutate({ id: selectedUser.id!, data });
-    //         }
-    //       }}
-    //     />
-    //   )}
-    // </div>
     <div className="container mx-auto px-4">
     <div className="flex justify-between items-center mb-6">
-      <h1 className="text-2xl font-bold">Quản lý sản phẩm</h1>
-      <button
-        onClick={() => {
-          setSelectedUser(null);
-          setIsModalOpen(true);
-        }}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Thêm sản phẩm mới
-      </button>
+      <h1 className="text-2xl font-bold">Quản lý người dùng</h1>
     </div>
 
     <div className="bg-white shadow-md rounded my-6">
@@ -116,19 +75,17 @@ function AdminUsers() {
       </table>
     </div>
 
-    {/* {isModalOpen && (
+    {isModalOpen && (
       <UserModal
-        product={selectedUser}
+        user={selectedUser}
         onClose={() => setIsModalOpen(false)}
         onSubmit={(data) => {
           if (selectedUser) {
             updateMutation.mutate({ id: selectedUser.id, data });
-          } else {
-            createMutation.mutate(data);
-          }
+          } 
         }}
       />
-    )} */}
+    )}
   </div>
   );
 }

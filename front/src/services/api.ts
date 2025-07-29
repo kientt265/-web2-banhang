@@ -109,7 +109,7 @@ export const adminService = {
 
   // Orders
   getAllOrders: (params?: { status?: string; page?: number; limit?: number }) =>
-    api.get('/orders', { params }).then((res) => res.data),
+    api.get('/orders/admin/orders', { params }).then((res) => res.data),
   updateOrderStatus: (id: number, status: string) =>
     api.put(`/orders/${id}/status`, { status }).then((res) => res.data),
 

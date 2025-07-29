@@ -14,7 +14,7 @@ import AdminProducts from './pages/admin/Products';
 import AdminLayout from './components/admin/layout/AdminLayout';
 import ProtectedRoute from './components/common/ProtectedRoute.tsx';
 import AdminUsers from './pages/admin/Users.tsx';
-
+import AdminOrders from './pages/admin/Orders.tsx';
 function App() {
   return (
     <Routes>
@@ -36,8 +36,8 @@ function App() {
         />
       }>
         <Route path="products" element={<AdminProducts />} />
-        {/* <Route path="categories" element={<AdminCategories />} />
-        <Route path="orders" element={<AdminOrders />} /> */}
+        {/* <Route path="categories" element={<AdminCategories />} /> */}
+        <Route path="orders" element={<AdminOrders />} />
         <Route path="users" element={<AdminUsers />} />
       </Route>
     </Routes>
